@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>rapport</title>
+    <style>
+      .footer {
+background-color: #333;
+color: #fff;
+padding: 20px;
+text-align: center;
+font-size: 14px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.footer img {
+width: 60px;
+height: 40px;
+border-radius: 50%;
+}
+
+.fixed-width-td {
+    width: 200px; /* Remplacez 200px par la largeur que vous souhaitez allouer */
+    word-wrap: break-word;
+}
+</style>
+</head>
+<body>
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+        <button class="btn btn-outline-success me-2" type="button"><a class="navbar-brand" href="{% url 'rapport' %}" style="color: white;">Rapport</a></button>
+        <button class="btn btn-outline-success me-2" type="button"> <a class="navbar-brand active" href="{% url 'gestion' %}" style="color: white;">employé</a></button>
+        <button class="btn btn-outline-success me-2" type="button"><a class="nav-link" href="{% url 'time_connection' %}" style="color: white;">heure de connection</a></button>
+        <button class="btn btn-outline-success me-2" type="button"><a class="nav-link" href="{% url 'map' %}" style="color: white;">carte</a></button>
+        <button class="btn btn-outline-success me-2" type="button"><a class="nav-link" href="{% url 'traject' %}" style="color: white;">traject</a></button>
+        <button class="btn btn-outline-success me-2" type="button"><a class="nav-link" href="{% url 'download_rapport' %}" style="color: white;">Télécharger rapport</a></button>
+        <button class="btn btn-outline-success me-2" type="button"><a class="nav-link" id="supprimer-link" href="{% url 'delete_rapport' %}" style="color: white;">Supprimer rapport</a></button>
+    </nav>
+  
+  <table class="table table-striped table-dark">
+      <thead>
+          <tr>
+              <th scope="col">Envoyeur</th>
+              <th scope="col">Receveur</th>
+              <th scope="col" class="fixed-width-td">Texte</th>
+              <th scope="col">Note</th>
+              <th scope="col">Heure</th>
+          </tr>
+      </thead>
+      <tbody>
+        {% if user.is_superuser %}
+        {% for rapport_admin in rapport_admin %}
+        <tr>
+            <td> {{ rapport_admin.envoyeur}}</td>
+            <td>{{ rapport_admin.receveur }}</td>
+            <td class="fixed-width-td">{{ rapport_admin.texte }}</td>
+            <td style="color: white;">{{ rapport_admin.note }}</td>
+            <td style="color: white;">{{ rapport_admin.heure }}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        {% for rapport in rapport %}
+        <tr>
+            <td> {{ rapport.envoyeur}}</td>
+            <td>{{ rapport.receveur }}</td>
+            <td class="fixed-width-td">{{ rapport.texte }}</td>
+            <td style="color: white;">{{ rapport.note }}</td>
+            <td style="color: white;">{{ rapport.heure }}</td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+
+      </tbody>
+  </table>
+  
+
+<footer>
+<div class="footer">
+    <img src="{% static 'img/Bcom.png' %}" alt="Image 1">
+    <img src="{% static 'img/Bcom.png' %}" alt="Image 2">
+    <img src="{% static 'img/Bcom.png' %}" alt="Image 3">
+    </div>  
+</footer>
+
+<script>
+
+document.getElementById("supprimer-link").addEventListener("click", function(event) {
+    event.preventDefault();
+    var confirmation = confirm("Voulez-vous vraiment supprimer l'historique des rapports ?");
+
+    if (confirmation) {
+        fetch("{% url 'delete_rapport' %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                // La suppression a réussi, mettez à jour l'affichage ici
+                // Par exemple, vous pouvez réinitialiser la liste des historiques de connexion ou rediriger vers une autre page
+                window.location.href = "{% url 'rapport' %}";  // Redirigez vers la page d'accueil après la suppression
+            } else {
+                // La suppression a échoué, gérer l'erreur ici si nécessaire
+                console.error('Erreur lors de la suppression :', response.statusText);
+            }
+        })
+        .catch(error => {
+            console.error('Erreur lors de la suppression :', error);
+        });
+    } else {
+        // L'utilisateur a cliqué sur Annuler, ne faites rien
+    }
+});
+
+</script>
+</body>
+</html>

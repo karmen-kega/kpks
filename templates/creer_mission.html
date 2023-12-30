@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>mission</title>
+    <!-- Inclure les fichiers Bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link href="static/css/style.css" rel="stylesheet">
+
+    <!-- Inclure les fichiers CSS et JS de Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+
+
+     <!-- Bootstrap 4 -->
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+ 
+     <!-- Font Awesome -->
+     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+ 
+     <!-- Moment.js -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+ 
+     <!-- Tempus Dominus Bootstrap 4 -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+ 
+
+  {{ form.media }}
+  <style>
+    body {
+        background-color: #343a40;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 150vh;
+        margin: 0;
+    }
+    .form-container {
+    min-width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+    border: 5px solid #fff; /* Bordure blanche de 1 pixel */
+    background-color: #343a40; /* Couleur de fond à l'intérieur de la bordure */
+    border-radius: 10px; /* Coins arrondis pour la bordure */
+    }
+
+
+    .form-container {
+    max-width: 400px;
+    margin: 0 auto; /* Pour centrer le formulaire horizontalement */
+    }
+</style>
+</head>
+<body>
+    
+    <div class="custom-form form-container" >
+        <h2 class="mb-4 text-center">creer une mission</h2>
+        <form method = 'POST', enctype="multipart/form-data" action=" {% url 'mission' %} ">
+        {% csrf_token %}
+
+        <div>
+            <label for="receveur">receveur : </label>
+            {{form.receveur}}
+        </div>
+        <div>
+            <label for="details">details : </label>
+            {{form.texte}}
+        </div>
+        <div>
+            <label for="point">point : </label>
+            {{form.point}}
+        </div>
+        <p></p>
+        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+            {{form.debut}}
+            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+            </div>
+        </div>
+        <p></p>
+        <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+            {{form.fin}}
+            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+            </div>
+        </div>
+        <div>
+            <label for="encours">encours : </label>
+            {{form.encours}}
+        </div>
+        <div>
+            <label for="terminer">terminer : </label>
+            {{form.terminer}}
+        </div>
+        <div>
+            <label for="reussie">reussie : </label>
+            {{form.reussie}}
+        </div>
+        <div>
+            <label for="echecs">echecs : </label>
+            {{form.echecs}}
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">creer</button>
+        
+        {% for message in messages %}
+        <p class  = 'successMsg'>{{message}}</p>
+        {% endfor%}
+        <p>
+            <p></p>
+        <button class="btn btn-primary btn-block"><a href="{% url 'voir_mission' %}" style="color: white;">Cancel</a></button>
+
+    </form>
+    </div>
+
+<script>
+    $(function () {
+    $("#datetimepicker1").datetimepicker({
+        format: 'DD/MM/YYYY HH:mm',
+    });
+    $("#datetimepicker2").datetimepicker({
+            format: 'DD/MM/YYYY HH:mm',
+        });
+    });
+</script>
+</body>
+</html>

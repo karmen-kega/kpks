@@ -1,0 +1,1 @@
+web gunicorn KPM.wsgi:application --log-file -

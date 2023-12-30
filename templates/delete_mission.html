@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Supprimer un utilisateur</h1>
+    <p>Voulez-vous vraiment supprimer la mission ?</p>
+    <form action="" method="post" id="delete-form">
+      {% csrf_token %}
+      <input type="submit" value="Confirmer la suppression">
+    </form>
+  
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const deleteForm = document.getElementById('delete-form');
+        const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    
+        deleteForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+    
+          if (confirm('Voulez-vous vraiment supprimer cette mission ?')) {
+            const requestOptions = {
+              method: 'DELETE',
+              headers: {
+                'X-CSRFToken': csrfToken
+              }
+            };
+    
+            fetch(deleteForm.action, requestOptions)
+              .then(response => {
+                if (response.ok) {
+                  // Suppression réussie
+                  // Vous pouvez effectuer des actions supplémentaires si nécessaire
+                }
+              })
+              .catch(error => {
+                console.error('Une erreur s\'est produite lors de la suppression :', error);
+              });
+          }
+        });
+      });
+    </script>
+    
+</body>
+</html>

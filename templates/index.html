@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="static/css/style.css" rel="stylesheet">
+  <style>
+    #map {
+      height: 700px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+    <button class="btn btn-outline-success me-2" type="button"><a class="navbar-brand" href="{% url 'rapport' %}" style="color: white;">Rapport</a></button>
+    <button class="btn btn-outline-success me-2" type="button"> <a class="navbar-brand active" href="{% url 'gestion' %}" style="color: white;">employé</a></button>
+    <button class="btn btn-outline-success me-2" type="button"><a class="nav-link" href="{% url 'time_connection' %}" style="color: white;">heure de connection</a></button>
+    <button class="btn btn-outline-success me-2" type="button"><a class="nav-link" href="{% url 'map' %}" style="color: white;">carte</a></button>
+    <button class="btn btn-outline-success me-2" type="button"><a class="nav-link" href="{% url 'traject' %}" style="color: white;">traject</a></button>
+    <button class="btn btn-outline-success me-2" type="button"><a class="nav-link" href="{% url 'inscription' %}" style="color: white;">inscrire</a></button>
+    
+  </nav>
+  <div id="map" ></div>
+  <div id="user-data" data-users="{{ user_data }}"></div>
+  <script>
+var markers = []; 
+
+function initMap() {
+    var map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat:  7.365302, lng: 12.343439},  // Coordonnées initiales de la carte
+        zoom: 8  // Niveau de zoom initial
+    });
+
+        // Fonction pour créer ou mettre à jour les marqueurs des utilisateurs
+        function updateMarkers() {
+    var userData = JSON.parse(document.getElementById('user-data').getAttribute('data-users'));
+
+    userData.forEach(function(user) {
+        var userLatLng = new google.maps.LatLng(user.latitude, user.longitude);
+
+        // Vérifiez si le marqueur de l'utilisateur existe déjà dans le tableau markers
+        var existingMarker = markers.find(function(marker) {
+            return marker.userId === user.id;
+        });
+
+        if (existingMarker) {
+            // Mettez à jour la position du marqueur existant
+            existingMarker.marker.setPosition(userLatLng);
+            existingMarker.infowindow.setContent(user.utilisateur.username);
+        } else {
+            // Créez un nouvel info-bulle pour l'utilisateur
+            var infowindow = new google.maps.InfoWindow({
+                content: user.matricule
+            });
+
+            // Créez un nouveau marqueur pour l'utilisateur et ajoutez-le au tableau markers
+            var newMarker = new google.maps.Marker({
+                position: userLatLng,
+                map: map,
+                title: user.matricule
+            });
+
+            // Attachez l'info-bulle au marqueur
+            newMarker.addListener('click', function() {
+                infowindow.open(map, newMarker);
+            });
+
+            markers.push({ userId: user.id, marker: newMarker, infowindow: infowindow });
+        }
+    });
+
+    // Répétez cette fonction toutes les secondes
+    setTimeout(updateMarkers, 3000);
+}
+  updateMarkers();
+}
+  </script>
+  
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrNjtdg4UoWB6JaAKQPOzZJgCvOHdP9I4&callback=initMap" async defer></script>
+</body>
+</html>

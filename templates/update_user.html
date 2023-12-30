@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+    <!-- FontAwesome CSS (utilisé par Bootstrap pour les icônes) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   
+
+    <style>
+    body {
+        background-color: #343a40;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 200vh;
+        margin: 0;
+    }
+    .form-container {
+    min-width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+    border: 5px solid #fff; /* Bordure blanche de 1 pixel */
+    background-color: #343a40; /* Couleur de fond à l'intérieur de la bordure */
+    border-radius: 10px; /* Coins arrondis pour la bordure */
+    }
+
+
+    .form-container {
+    max-width: 400px;
+    margin: 0 auto; /* Pour centrer le formulaire horizontalement */
+    }
+    </style>
+</head>
+<body>
+    <div class="custom-form form-container" >
+        
+        <form method = 'POST', enctype="multipart/form-data" >
+          {% csrf_token %}
+          <div class="form-group">
+            <div class="form-group">
+              <label>Prenom  :</label>
+              {{register_form.username}}
+            </div>
+            <div class="form-group">
+              <label>Photo de profile  :</label>
+              {{register_form.profile}}
+            </div>
+            <div class="form-group">
+              <label>Nom  :</label>
+              {{register_form.last_name}}
+            </div>
+            <div class="form-group">
+              <label for="nom">Age :</label>
+              {{register_form.age}}
+            </div>
+            <div class="form-group">
+              <label for="nom">Nationnalite :</label>
+              {{register_form.nationnalite}}
+            </div>
+            <div class="form-group">
+              <label>Genre : </label>
+              {{register_form.genre}}
+            </div>
+            <div class="form-group">
+              <label for="nom">photo de la CNI :</label>
+              {{register_form.CNI}}
+            </div>
+            <div class="form-group">
+              <label for="nom">Numero de telephone :</label>
+              {{register_form.telephone}}
+            </div>
+            <div class="form-group">
+              <label for="nom">Handicap :</label>
+              {{register_form.handicap}}
+            </div>
+            
+            <div>
+              <label for="superuser">administrateur : </label>
+              {{register_form.is_superuser}}
+            </div>
+            <div>
+              <label for="c_burreau">controlleur_bureau : </label>
+              {{register_form.is_staff}}
+            </div>
+            <div>
+              <label for="c_terrain">controlleur_terrain : </label>
+              {{register_form.is_terrain}}
+            </div>
+            <div>
+              <label for="mottoman">bycker : </label>
+              {{register_form.is_motoman}}
+            </div>
+              <div class="form-group">
+                <label>Syndicat : </label>
+                {{register_form.syndicat}}
+              </div>
+              <div class="form-group">
+                <label>Heure de Travaille : </label>
+                {{register_form.heure_Travaille}}
+              </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">modifier</button>
+          <button class="btn btn-primary btn-block"><a href="{% url 'gestion' %}" style="color: white;">Cancel</a></button>
+          
+        </form>
+      </div>
+
+      <script>
+        const passwordInput = document.getElementById("id_password");
+        const togglePasswordButton = document.getElementById("togglePassword");
+      
+        togglePasswordButton.addEventListener("click", function() {
+          const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+          passwordInput.setAttribute("type", type);
+          // Change l'icône de l'œil en fonction de l'état du mot de passe (visible ou masqué)
+          togglePasswordButton.innerHTML = type === "password" ? "👁️" : "👁️‍🗨️";
+        });
+      </script>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Inscription</title>
+    <!-- Inclure les fichiers Bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link href="static/css/style.css" rel="stylesheet">
+  <style>
+    body {
+        background-color: #343a40;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 220vh;
+        margin: 0;
+    }
+    .form-container {
+    min-width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+    border: 5px solid #fff; /* Bordure blanche de 1 pixel */
+    background-color: #343a40; /* Couleur de fond à l'intérieur de la bordure */
+    border-radius: 10px; /* Coins arrondis pour la bordure */
+    }
+
+
+    .form-container {
+    max-width: 400px;
+    margin: 0 auto; /* Pour centrer le formulaire horizontalement */
+    }
+  </style>
+</head>
+<body>
+    
+    <div class="custom-form form-container" >
+        <h2 class="mb-4 text-center">Inscription</h2>
+      <form method = 'POST', enctype="multipart/form-data" action=" {% url 'inscription' %} ">
+        {% csrf_token %}
+        <div class="form-group">
+          <label>Prenom  :</label>
+          {{register_form.username}}
+        </div>
+        <div class="form-group">
+          <label>Nom  :</label>
+          {{register_form.last_name}}
+        </div>
+        <div class="form-group">
+          <label>Photo  :</label>
+          {{register_form.profile}}
+        </div>
+        <div class="form-group">
+          <label for="password">mot de passe :</label>
+          {{register_form.password1}}
+        </div>
+        <div class="form-group">
+          <label for="password">confirmer le mot de passe :</label>
+          {{register_form.password2}}
+        </div>
+        <div class="form-group">
+          <label for="nom">Age :</label>
+          {{register_form.age}}
+        </div>
+        <div class="form-group">
+          <label for="nom">Nationnalite :</label>
+          {{register_form.nationnalite}}
+        </div>
+        <div class="form-group">
+          <label>Genre : </label>
+          {{register_form.genre}}
+        </div>
+        <div class="form-group">
+          <label for="nom">Numero de CNI :</label>
+          {{register_form.CNI}}
+        </div>
+        <div class="form-group">
+          <label for="nom">Numero de telephone :</label>
+          {{register_form.telephone}}
+        </div>
+        <div class="form-group">
+          <label for="nom">Handicap :</label>
+          {{register_form.handicap}}
+        </div>
+        
+        <div>
+          <label for="superuser">administrateur : </label>
+          {{register_form.is_superuser}}
+        </div>
+        <div>
+          <label for="c_burreau">controlleur_bureau : </label>
+          {{register_form.is_staff}}
+        </div>
+        <div>
+          <label for="c_terrain">controlleur_terrain : </label>
+          {{register_form.is_terrain}}
+        </div>
+        <div>
+          <label for="mottoman">bycker : </label>
+          {{register_form.is_motoman}}
+        </div>
+        <div id="motoman-fields" style="display: none;">
+          <div class="form-group">
+            <label>Syndicat : </label>
+            {{register_form.syndicat}}
+          </div>
+          <div class="form-group">
+            <label>Heure de Travaille : </label>
+            {{register_form.heure_Travaille}}
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Inscrire</button>
+        
+        {% for message in messages %}
+        <p class  = 'successMsg'>{{message}}</p>
+        {% endfor%}
+        <p>
+          <p>Deja inscrit ? <a href="{% url 'connection' %}">Connexion</a></p>
+        <button class="btn btn-primary btn-block"><a href="{% url 'gestion' %}" style="color: white;">Cancel</a></button>
+      
+      
+      </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#id_is_motoman').change(function(){
+            if($(this).is(":checked")) {
+                $('#motoman-fields').show();
+            } else {
+                $('#motoman-fields').hide();
+            }
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Page de connexion</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <style>
+    body {
+        background-color: #343a40;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    
+    .form-container {
+    min-width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+    border: 5px solid #fff; /* Bordure blanche de 1 pixel */
+    background-color: #343a40; /* Couleur de fond à l'intérieur de la bordure */
+    border-radius: 10px; /* Coins arrondis pour la bordure */
+    }
+
+
+    .form-container {
+    max-width: 400px;
+    margin: 0 auto; /* Pour centrer le formulaire horizontalement */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="custom-form form-container">
+    <h2 class="mb-4 text-center">Connection</h2>
+      <form  method = 'POST', enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row justify-content-center align-items-center mb-4">
+          </div>
+        <div class="form-group">
+          <label>votre nom</label>
+          <input type="text" name="username" class="form-control" placeholder="Enter Username" maxlength="100" autofocus="" required="" id="id_username">
+        </div>
+        <label>mot de passe</label>
+        <div class="input-group">
+          <input type="password" name="password" class="form-control" placeholder="At least eight characters" maxlength="100" required="" id="id_password">
+          <div class="input-group-append">
+            <p type="button" id="togglePassword" class="btn btn-secondary">👁️</p>
+          </div>
+        </div>
+        
+        {% for message in messages %}
+        <p class  = 'successMsg'>{{message}}</p>
+        {% endfor%}
+        <p>
+
+        </p>
+        <button type = 'submit' class="btn btn-primary btn-block">Connexion</button>
+      </form>
+      <script>
+        const passwordInput = document.getElementById("id_password");
+        const togglePasswordButton = document.getElementById("togglePassword");
+      
+        togglePasswordButton.addEventListener("click", function() {
+          const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+          passwordInput.setAttribute("type", type);
+          // Change l'icône de l'œil en fonction de l'état du mot de passe (visible ou masqué)
+          togglePasswordButton.innerHTML = type === "password" ? "👁️" : "👁️‍🗨️";
+        });
+      </script>
+      
+  </div>
+</body>
+
+</html>

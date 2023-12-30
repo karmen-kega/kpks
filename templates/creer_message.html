@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>mission</title>
+    <!-- Inclure les fichiers Bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link href="static/css/style.css" rel="stylesheet">
+
+<style>
+    body {
+        background-color: #343a40;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 120vh;
+        margin: 0;
+    }
+    .form-container {
+    min-width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+    border: 5px solid #fff; /* Bordure blanche de 1 pixel */
+    background-color: #343a40; /* Couleur de fond à l'intérieur de la bordure */
+    border-radius: 10px; /* Coins arrondis pour la bordure */
+    }
+
+
+    .form-container {
+    max-width: 400px;
+    margin: 0 auto; /* Pour centrer le formulaire horizontalement */
+    }
+</style>
+</head>
+<body>
+    
+    <div class="custom-form form-container" >
+        <h2 class="mb-4 text-center">envoyer un message</h2>
+        <form method = 'POST', enctype="multipart/form-data" action=" {% url 'message' %} ">
+        {% csrf_token %}
+
+        <div>
+            <label for="receveur">receveur : </label>
+            {{form.receveur}}
+        </div>
+        <div>
+            <label for="details">details : </label>
+            {{form.texte}}
+        </div>
+        <p></p>
+        <button type="submit" class="btn btn-primary btn-block">Envoyer</button>
+        
+            <p></p>
+        <button class="btn btn-primary btn-block"><a href="{% url 'voir_message' %}" style="color: white;">Cancel</a></button>
+
+    </form>
+    </div>
+</body>
+</html>
